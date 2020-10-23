@@ -1,13 +1,6 @@
 <template>
   <v-card>
-    <v-toolbar
-      v-if="enableHeader"
-      color="deep-orange accent-2"
-      flat
-      dense
-      card
-      dark
-    >
+    <v-toolbar v-if="enableHeader" :color="colors" flat dense card dark>
       <v-toolbar-title
         ><h4>{{ title }}</h4></v-toolbar-title
       >
@@ -29,6 +22,10 @@ export default {
       type: String,
       default: "",
     },
+    colors: {
+      type: String,
+      default: "",
+    },
     enableHeader: {
       type: Boolean,
       default: true,
@@ -40,3 +37,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+h2,
+h3,
+h4 {
+  font-family: "Kanit", sans-serif;
+}
+</style>

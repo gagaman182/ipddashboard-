@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex sm12>
         <div class="headline grey--text text--darken-1 mainhead">
-          <h3><v-icon large>web</v-icon> จำนวนบริการผู้ป่วยใน</h3>
+          <h3><v-icon large>web</v-icon> จำนวนบริการผู้ป่วยใน (คน)</h3>
         </div>
       </v-flex>
       <v-flex lg3 sm12>

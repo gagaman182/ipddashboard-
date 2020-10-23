@@ -25,6 +25,9 @@ module.exports = {
                 href: "https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;1,200&display=swap",
             },
         ],
+        // script: [{
+        //     src: "https://www.gstatic.com/charts/loader.js",
+        // }, ],
     },
     modules: [
         "@nuxtjs/pwa",
@@ -35,6 +38,11 @@ module.exports = {
             },
         ],
         "@nuxtjs/axios",
+    ],
+    plugins: [
+        "@/plugins/chartkick",
+        // "@/plugins/chartkickGoogle",
+        // "@/plugins/zingChart",
     ],
     modern: true,
     axios: {
