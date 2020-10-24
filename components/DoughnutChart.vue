@@ -1,7 +1,8 @@
 <script>
 import { Doughnut } from "vue-chartjs";
 import axios from "axios";
-
+//เรียกใช้ plugin labels
+import ChartJSPluginDatalabels from "chartjs-plugin-datalabels";
 export default {
   extends: Doughnut,
   props: {
@@ -35,11 +36,31 @@ export default {
         },
         responsive: true,
         maintainAspectRatio: false,
+        plugins: {
+          datalabels: {
+            color: "#ffffff",
+
+            font: {
+              weight: "bold",
+              size: 16,
+            },
+
+            align: "center",
+            anchor: "center",
+            Clamping: "center",
+            backgroundColor: "#706677",
+            // borderColor: "#B0C4DE",
+            borderRadius: 4,
+            borderWidth: 1,
+          },
+        },
       },
     };
   },
   mounted() {
     this.changetitlecolor();
+    //เรียกใช้ plugin labels
+    this.addPlugin(ChartJSPluginDatalabels);
     this.renderChart(this.chartData, this.options);
   },
   methods: {
@@ -62,10 +83,14 @@ export default {
         "#8675a9",
       ];
       // this.chartData.datasets[0].borderColor = this.chartbodercolor;
+      //ค่า+label
       this.chartData.labels = this.ipdall_chart_donut_name;
       this.chartData.datasets[0].data = this.ipdall_chart_donut_sum;
       this.options.animateRotate = true;
-      console.log(this.ipdall_chart_bar_name);
+
+      //สี label
+      // this.options.plugins.datalabels.backgroundColor = "#fcbf49";
+      this.options.plugins.datalabels.borderColor = this.chartbodercolor;
     },
   },
 };

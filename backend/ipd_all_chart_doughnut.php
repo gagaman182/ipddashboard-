@@ -98,7 +98,7 @@ while($rs_pmk=oci_fetch_array($objParse,OCI_BOTH)){
 	
 // $data_array2 = array("data" => $data);
 
-echo json_encode(array_values($data));
+echo json_encode($data);
 
 
 
