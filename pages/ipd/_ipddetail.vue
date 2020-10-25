@@ -8,7 +8,7 @@
           </h3>
         </div>
       </v-flex>
-
+      <!-- chartjs -->
       <v-flex sm12 md9 sm9>
         <v-widget title="กราฟแสดงจำนวนแยกตามหอผู้ป่วย" :colors="chartcolor">
           <div slot="widget-content">
@@ -33,16 +33,48 @@
           </div>
         </v-widget>
       </v-flex>
+      <v-flex sm12 md12 sm12>
+        <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
+          <div slot="widget-content">
+            <pie-chart
+              :data="[
+                ['Blueberry', 44],
+                ['Strawberry', 23],
+              ]"
+              label="Value"
+            ></pie-chart>
+          </div>
+        </v-widget>
+      </v-flex>
+
+      <!-- google chart
+      <v-flex sm12 md12 sm12>
+        <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
+          <div slot="widget-content">
+            <BarChartgoogle
+              v-if="loaddata_google"
+              :chartData="ipdall_google"
+            ></BarChartgoogle>
+          </div>
+        </v-widget>
+      </v-flex> -->
+
       <!-- <v-flex sm12 md12 sm12>
         <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
           <div slot="widget-content">
-            <GChart
-              v-if="loaddata_google"
-              type="ColumnChart"
-              :data="chartData"
-              :options="Options"
-            ></GChart>
-        
+            <Barher></Barher>
+          </div>
+        </v-widget>
+      </v-flex> -->
+      <!-- apex chart -->
+      <!-- <v-flex sm12 md12 sm12>
+        <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
+          <div slot="widget-content">
+            <apexChartBar
+              v-if="loaddata_apex"
+              :categories="ipdall_apex_bar_name"
+              :data="ipdall_apex_bar_sum"
+            ></apexChartBar>
           </div>
         </v-widget>
       </v-flex> -->
@@ -53,23 +85,28 @@
 <script>
 import VWidget from "@/components/VWidget";
 import axios from "axios";
-import LineChart from "@/components/LineChart";
-import BarChart from "@/components/BarChart";
-import DoughnutChart from "@/components/DoughnutChart";
-import { GChart } from "vue-google-charts";
+import LineChart from "@/components/chart/chartjs/LineChart";
+import BarChart from "@/components/chart/chartjs/BarChart";
+import DoughnutChart from "@/components/chart/chartjs/DoughnutChart";
+import BarChartgoogle from "@/components/chart/google/BarChartgoogle";
+
+// import apexChartBar from "@/components/chart/apex/apexChartBar";
 export default {
   components: {
     VWidget,
     LineChart,
     BarChart,
     DoughnutChart,
-    GChart,
+    BarChartgoogle,
+
+    // apexChartBar,
   },
   data() {
     return {
       loaddata_bar: false,
       loaddata_donut: false,
       loaddata_google: false,
+      loaddata_apex: false,
       chartcolor: null,
       iconmain: null,
       titlemain: null,
@@ -79,33 +116,19 @@ export default {
       ipdall_chart_donut: null,
       ipdall_chart_donut_name: null,
       ipdall_chart_donut_sum: null,
+      ipdall_google: null,
+      ipdall_apex: null,
+      ipdall_apex_bar_name: null,
+      ipdall_apex_bar_sum: null,
       ipddetail: this.$route.params.ipddetail,
-
-      // google chart
-      // chartData: [
-      //   // ["Year", "ward"],
-      //   // ["2014", 1000],
-      //   // ["2015", 1170],
-      //   // ["2016", 660],
-      //   // ["2017", 1030],
-      // ],
-      // Options: {
-      //   title: "Company Performance",
-
-      //   hAxis: {
-      //     title: "Time of Day",
-      //   },
-      //   vAxis: {
-      //     title: "Rating (scale of 1-10)",
-      //   },
-      // },
     };
   },
   computed: {},
   beforeMount() {
     this.feathipd_all_chart_bar();
     this.feathipd_all_donut_bar();
-    // this.feathgoogle();
+    this.feathgoogle();
+    // this.feathapex();
   },
   mounted() {
     this.changetitlecolor();
@@ -131,10 +154,10 @@ export default {
         this.titlemain = "จำนวนคนไข้จำหน่าย";
       }
     },
-    //แสดง chart bar
+    //แสดง chart bar chartjs
     async feathipd_all_chart_bar() {
       await axios
-        .get(`${this.$axios.defaults.baseURL}ipd_all_chart_bar.php`, {
+        .get(`${this.$axios.defaults.baseURL}chartjs/ipd_all_chart_bar.php`, {
           params: {
             ipddetail: this.$route.params.ipddetail,
           },
@@ -154,14 +177,17 @@ export default {
           );
         });
     },
-    //แสดง doughnut bar
+    //แสดง doughnut bar chartjs
     async feathipd_all_donut_bar() {
       await axios
-        .get(`${this.$axios.defaults.baseURL}ipd_all_chart_doughnut.php`, {
-          params: {
-            ipddetail: this.$route.params.ipddetail,
-          },
-        })
+        .get(
+          `${this.$axios.defaults.baseURL}chartjs/ipd_all_chart_doughnut.php`,
+          {
+            params: {
+              ipddetail: this.$route.params.ipddetail,
+            },
+          }
+        )
         .then((response) => {
           this.ipdall_chart_donut = response.data;
 
@@ -178,14 +204,33 @@ export default {
           );
         });
     },
-    // async feathgoogle() {
-    //   await axios
-    //     .get(`${this.$axios.defaults.baseURL}ipd_all copy.php`)
-    //     .then((response) => {
-    //       this.loaddata_google = true;
-    //       this.chartData = response.data;
+    //fresh bar google chart
+    async feathgoogle() {
+      await axios
+        .get(`${this.$axios.defaults.baseURL}google/ipd_all_google_2.php`)
+        .then((response) => {
+          this.loaddata_google = true;
+          this.ipdall_google = response.data;
+        });
+    },
 
-    //       console.log(this.chartData);
+    //fresh bar apex chart
+    // async feathapex() {
+    //   await axios
+    //     .get(`${this.$axios.defaults.baseURL}apex/ipd_all_apex_bar.php`)
+    //     .then((response) => {
+    //       this.loaddata_apex = true;
+    //       this.ipdall_apex = response.data;
+
+    //       //เอาข้อความไปใส่ labels
+    //       this.ipdall_apex_bar_name = this.ipdall_apex.map(
+    //         (item) => item.halfplace
+    //       );
+
+    //       //เอาผลรวมไปใส่ใน data
+    //       this.ipdall_apex_bar_sum = this.ipdall_apex.map(
+    //         (item) => item.ipdall
+    //       );
     //     });
     // },
   },

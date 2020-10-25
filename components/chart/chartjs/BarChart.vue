@@ -41,6 +41,11 @@ export default {
             borderColor: [],
             pointBorderColor: "",
             data: [],
+            rough: {
+              roughness: 2,
+
+              bowing: 2,
+            },
           },
         ],
       },
@@ -110,6 +115,8 @@ export default {
     this.changetitlecolor();
     //เรียกใช้ plugin labels
     this.addPlugin(ChartJSPluginDatalabels);
+
+    //renderchart
     this.renderChart(this.chartData, this.options);
   },
   methods: {

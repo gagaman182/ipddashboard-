@@ -26,23 +26,11 @@ GROUP BY PLACES.HALFPLACE
 ORDER BY 	COUNT(*) DESC
 
 
-
-
-
-	
-
 	
 ";
 $rows = array();
   $table = array();
   $table['cols'] = array(
-
-    // Labels for your chart, these represent the column titles.
-    /* 
-        note that one column is in "string" format and another one is in "number" format 
-        as pie chart only required "numbers" for calculating percentage 
-        and string will be used for Slice title
-    */
 
     array('label' => 'Weekly Task', 'type' => 'string'),
     array('label' => 'Percentage', 'type' => 'number')
@@ -55,10 +43,6 @@ oci_execute($objParse,OCI_DEFAULT);
 while($rs_pmk=oci_fetch_array($objParse,OCI_BOTH)){
 
 
-
-
-
-	
 
 	$temp = array();
 

@@ -61,6 +61,7 @@ export default {
     this.changetitlecolor();
     //เรียกใช้ plugin labels
     this.addPlugin(ChartJSPluginDatalabels);
+    //renderchart
     this.renderChart(this.chartData, this.options);
   },
   methods: {
