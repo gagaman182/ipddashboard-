@@ -18,20 +18,7 @@ export default {
       chartcolor: null,
       chartbodercolor: null,
       chartData: {
-        // labels: [
-        //   "2015-01",
-        //   "2015-02",
-        //   "2015-03",
-        //   "2015-04",
-        //   "2015-05",
-        //   "2015-06",
-        //   "2015-07",
-        //   "2015-08",
-        //   "2015-09",
-        //   "2015-10",
-        //   "2015-11",
-        //   "2015-12",
-        // ],
+        labels: [],
         datasets: [
           {
             label: "จำนวนผู้ป่วย",
@@ -98,6 +85,7 @@ export default {
             //   var invert = Math.abs(value) <= 1;
             //   return value < 1 ? "end" : "start";
             // },
+
             align: "end",
             anchor: "end",
             Clamping: "end",

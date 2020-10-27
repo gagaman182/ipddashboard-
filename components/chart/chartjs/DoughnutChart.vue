@@ -27,7 +27,7 @@ export default {
       options: {
         title: {
           display: true,
-          text: "ระดับอาการ",
+          text: "ระดับอาการ ",
           fontSize: "20",
           fontFamily: "Kanit, sans-serif",
         },

@@ -33,19 +33,6 @@
           </div>
         </v-widget>
       </v-flex>
-      <v-flex sm12 md12 sm12>
-        <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
-          <div slot="widget-content">
-            <pie-chart
-              :data="[
-                ['Blueberry', 44],
-                ['Strawberry', 23],
-              ]"
-              label="Value"
-            ></pie-chart>
-          </div>
-        </v-widget>
-      </v-flex>
 
       <!-- google chart
       <v-flex sm12 md12 sm12>
@@ -59,13 +46,16 @@
         </v-widget>
       </v-flex> -->
 
-      <!-- <v-flex sm12 md12 sm12>
-        <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
+      <v-flex sm12 md6 sm6>
+        <v-widget title="กราฟแสดงตามสิทธิการรักษา" :colors="chartcolor">
           <div slot="widget-content">
-            <Barher></Barher>
+            <PieChartHorizon
+              :chartData="ipdall_google_pie"
+              v-if="loaddata_google"
+            ></PieChartHorizon>
           </div>
         </v-widget>
-      </v-flex> -->
+      </v-flex>
       <!-- apex chart -->
       <!-- <v-flex sm12 md12 sm12>
         <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
@@ -88,7 +78,8 @@ import axios from "axios";
 import LineChart from "@/components/chart/chartjs/LineChart";
 import BarChart from "@/components/chart/chartjs/BarChart";
 import DoughnutChart from "@/components/chart/chartjs/DoughnutChart";
-import BarChartgoogle from "@/components/chart/google/BarChartgoogle";
+// import BarChartgoogle from "@/components/chart/google/BarChartgoogle";
+import PieChartHorizon from "@/components/chart/google/PieChartHorizon";
 
 // import apexChartBar from "@/components/chart/apex/apexChartBar";
 export default {
@@ -97,7 +88,8 @@ export default {
     LineChart,
     BarChart,
     DoughnutChart,
-    BarChartgoogle,
+    // BarChartgoogle,
+    PieChartHorizon,
 
     // apexChartBar,
   },
@@ -116,7 +108,7 @@ export default {
       ipdall_chart_donut: null,
       ipdall_chart_donut_name: null,
       ipdall_chart_donut_sum: null,
-      ipdall_google: null,
+      ipdall_google_pie: null,
       ipdall_apex: null,
       ipdall_apex_bar_name: null,
       ipdall_apex_bar_sum: null,
@@ -127,7 +119,7 @@ export default {
   beforeMount() {
     this.feathipd_all_chart_bar();
     this.feathipd_all_donut_bar();
-    this.feathgoogle();
+    this.feathgoogle_pie();
     // this.feathapex();
   },
   mounted() {
@@ -204,13 +196,28 @@ export default {
           );
         });
     },
+    // //fresh bar google chart
+    // async feathgoogle() {
+    //   await axios
+    //     .get(`${this.$axios.defaults.baseURL}google/ipd_all_google_2.php`)
+    //     .then((response) => {
+    //       this.loaddata_google = true;
+    //       this.ipdall_google = response.data;
+    //     });
+    // },
+
     //fresh bar google chart
-    async feathgoogle() {
+    async feathgoogle_pie() {
       await axios
-        .get(`${this.$axios.defaults.baseURL}google/ipd_all_google_2.php`)
+        .get(`${this.$axios.defaults.baseURL}google/ipd_pie_chart.php`, {
+          params: {
+            ipddetail: this.$route.params.ipddetail,
+          },
+        })
         .then((response) => {
           this.loaddata_google = true;
-          this.ipdall_google = response.data;
+          this.ipdall_google_pie = response.data;
+          console.log(this.ipdall_google_pie);
         });
     },
 
