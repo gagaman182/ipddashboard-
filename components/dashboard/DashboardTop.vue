@@ -7,17 +7,16 @@
         </div>
       </v-flex>
       <v-flex lg3 sm12>
-        <v-card color="deep-orange accent-2 white--text">
+        <v-card color="pink lighten-2 white--text">
           <v-card-title class="pb-0">
-            <h2>จำนวนคนไข้ ณ ปัจจุบัน</h2>
+            <h2>จำนวนยอดยกมา</h2>
           </v-card-title>
-
-          <v-card-text>
+          <v-card-text class="white--text">
             <div class="text-xs-center d-flex align-center">
-              <v-icon large color="white lighten-3 ">groups</v-icon>
-
-              <h3 class="display-2">{{ ipd_all }}</h3>
-
+              <v-icon large color="white lighten-3"
+                >transfer_within_a_station</v-icon
+              >
+              <h3 class="display-2">{{ ipd_old }}</h3>
               <v-progress-circular
                 v-if="showprogress"
                 indeterminate
@@ -27,7 +26,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark flat small @click="detail_ipd_all()">
+            <v-btn dark flat small @click="detail_ipd_old()">
               <v-icon color="white lighten-3">slideshow</v-icon></v-btn
             >
           </v-card-actions>
@@ -58,16 +57,17 @@
         </v-card>
       </v-flex>
       <v-flex lg3 sm12>
-        <v-card color="pink lighten-2 white--text">
+        <v-card color="deep-orange accent-2 white--text">
           <v-card-title class="pb-0">
-            <h2>จำนวนยอดยกมา</h2>
+            <h2>จำนวนคนไข้ ณ ปัจจุบัน</h2>
           </v-card-title>
-          <v-card-text class="white--text">
+
+          <v-card-text>
             <div class="text-xs-center d-flex align-center">
-              <v-icon large color="white lighten-3"
-                >transfer_within_a_station</v-icon
-              >
-              <h3 class="display-2">{{ ipd_old }}</h3>
+              <v-icon large color="white lighten-3 ">groups</v-icon>
+
+              <h3 class="display-2">{{ ipd_all }}</h3>
+
               <v-progress-circular
                 v-if="showprogress"
                 indeterminate
@@ -77,12 +77,13 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark flat small @click="detail_ipd_old()">
+            <v-btn dark flat small @click="detail_ipd_all()">
               <v-icon color="white lighten-3">slideshow</v-icon></v-btn
             >
           </v-card-actions>
         </v-card>
       </v-flex>
+
       <v-flex lg3 sm12>
         <v-card color="pink darken-4 white--text">
           <v-card-title class="pb-0">

@@ -34,18 +34,40 @@
         </v-widget>
       </v-flex>
 
-      <!-- google chart
-      <v-flex sm12 md12 sm12>
-        <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
+      <!-- progress -->
+      <v-flex sm12 md3 sm3>
+        <v-widget title="กราฟแสดงตามเพศ" :colors="chartcolor">
           <div slot="widget-content">
-            <BarChartgoogle
-              v-if="loaddata_google"
-              :chartData="ipdall_google"
-            ></BarChartgoogle>
+            <v-progress-circular
+              :size="350"
+              :width="70"
+              :rotate="360"
+              :value="ipdall_progrerss_sex_m"
+              color="#FDDC5C"
+            >
+              <h2>{{ "ชาย" }} {{ parseInt(ipdall_progrerss_sex_m) }}%</h2>
+            </v-progress-circular>
           </div>
         </v-widget>
-      </v-flex> -->
+      </v-flex>
+      <v-flex sm12 md3 sm3>
+        <v-widget title="กราฟแสดงตามเพศ" :colors="chartcolor">
+          <div slot="widget-content">
+            <v-progress-circular
+              :size="350"
+              :width="70"
+              :rotate="360"
+              :value="ipdall_progrerss_sex_f"
+              color="#475F94"
+              :height="20"
+            >
+              <h2>{{ "หญิง" }} {{ parseInt(ipdall_progrerss_sex_f) }}%</h2>
+            </v-progress-circular>
+          </div>
+        </v-widget>
+      </v-flex>
 
+      <!-- google chart -->
       <v-flex sm12 md6 sm6>
         <v-widget title="กราฟแสดงตามสิทธิการรักษา" :colors="chartcolor">
           <div slot="widget-content">
@@ -56,18 +78,17 @@
           </div>
         </v-widget>
       </v-flex>
-      <!-- apex chart -->
-      <!-- <v-flex sm12 md12 sm12>
-        <v-widget title="กราฟแสดงตามระดับอาการ" :colors="chartcolor">
+      <!-- google column chart -->
+      <v-flex sm12 md12 sm12>
+        <v-widget title="กราฟแสดงตามช่วงอายุ" :colors="chartcolor">
           <div slot="widget-content">
-            <apexChartBar
-              v-if="loaddata_apex"
-              :categories="ipdall_apex_bar_name"
-              :data="ipdall_apex_bar_sum"
-            ></apexChartBar>
+            <StackedColumn
+              v-if="loaddata_age"
+              :chartData="ipdall_age"
+            ></StackedColumn>
           </div>
         </v-widget>
-      </v-flex> -->
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -78,20 +99,16 @@ import axios from "axios";
 import LineChart from "@/components/chart/chartjs/LineChart";
 import BarChart from "@/components/chart/chartjs/BarChart";
 import DoughnutChart from "@/components/chart/chartjs/DoughnutChart";
-// import BarChartgoogle from "@/components/chart/google/BarChartgoogle";
 import PieChartHorizon from "@/components/chart/google/PieChartHorizon";
-
-// import apexChartBar from "@/components/chart/apex/apexChartBar";
+import StackedColumn from "@/components/chart/google/StackedColumn";
 export default {
   components: {
     VWidget,
     LineChart,
     BarChart,
     DoughnutChart,
-    // BarChartgoogle,
     PieChartHorizon,
-
-    // apexChartBar,
+    StackedColumn,
   },
   data() {
     return {
@@ -99,6 +116,8 @@ export default {
       loaddata_donut: false,
       loaddata_google: false,
       loaddata_apex: false,
+      loaddata_sex: false,
+      loaddata_age: false,
       chartcolor: null,
       iconmain: null,
       titlemain: null,
@@ -109,9 +128,11 @@ export default {
       ipdall_chart_donut_name: null,
       ipdall_chart_donut_sum: null,
       ipdall_google_pie: null,
-      ipdall_apex: null,
-      ipdall_apex_bar_name: null,
-      ipdall_apex_bar_sum: null,
+      ipdall_age: null,
+      ipdall_progrerss_sex: 0,
+      ipdall_progrerss_sex_m: 0,
+      ipdall_progrerss_sex_f: 0,
+
       ipddetail: this.$route.params.ipddetail,
     };
   },
@@ -120,7 +141,8 @@ export default {
     this.feathipd_all_chart_bar();
     this.feathipd_all_donut_bar();
     this.feathgoogle_pie();
-    // this.feathapex();
+    this.feathprogress_sex();
+    this.feathage();
   },
   mounted() {
     this.changetitlecolor();
@@ -196,15 +218,6 @@ export default {
           );
         });
     },
-    // //fresh bar google chart
-    // async feathgoogle() {
-    //   await axios
-    //     .get(`${this.$axios.defaults.baseURL}google/ipd_all_google_2.php`)
-    //     .then((response) => {
-    //       this.loaddata_google = true;
-    //       this.ipdall_google = response.data;
-    //     });
-    // },
 
     //fresh bar google chart
     async feathgoogle_pie() {
@@ -217,29 +230,47 @@ export default {
         .then((response) => {
           this.loaddata_google = true;
           this.ipdall_google_pie = response.data;
-          console.log(this.ipdall_google_pie);
         });
     },
 
-    //fresh bar apex chart
-    // async feathapex() {
-    //   await axios
-    //     .get(`${this.$axios.defaults.baseURL}apex/ipd_all_apex_bar.php`)
-    //     .then((response) => {
-    //       this.loaddata_apex = true;
-    //       this.ipdall_apex = response.data;
+    //fresh sex progress
+    async feathprogress_sex() {
+      await axios
+        .get(`${this.$axios.defaults.baseURL}progress_sex.php`, {
+          params: {
+            ipddetail: this.$route.params.ipddetail,
+          },
+        })
+        .then((response) => {
+          this.loaddata_sex = true;
+          this.ipdall_progrerss_sex = response.data;
 
-    //       //เอาข้อความไปใส่ labels
-    //       this.ipdall_apex_bar_name = this.ipdall_apex.map(
-    //         (item) => item.halfplace
-    //       );
+          this.ipdall_progrerss_sex_m = this.ipdall_progrerss_sex.map(
+            (item) => item.m
+          );
 
-    //       //เอาผลรวมไปใส่ใน data
-    //       this.ipdall_apex_bar_sum = this.ipdall_apex.map(
-    //         (item) => item.ipdall
-    //       );
-    //     });
-    // },
+          this.ipdall_progrerss_sex_f = this.ipdall_progrerss_sex.map(
+            (item) => item.f
+          );
+        });
+    },
+
+    //fresh age column bar
+    async feathage() {
+      await axios
+        .get(
+          `${this.$axios.defaults.baseURL}/google/ipd_age_column_chart.php`,
+          {
+            params: {
+              ipddetail: this.$route.params.ipddetail,
+            },
+          }
+        )
+        .then((response) => {
+          this.loaddata_age = true;
+          this.ipdall_age = response.data;
+        });
+    },
   },
 };
 </script>

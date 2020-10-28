@@ -28,14 +28,29 @@ export default {
       ],
       chartOptions: {
         title: "สิทธิการรักษา",
-        titleTextStyle: { fontName: "Kanit", fontSize: "20" },
-        height: 400,
+        titleTextStyle: { fontName: "Kanit ", fontSize: "20" },
+        height: 350,
 
-        legend: { position: "labeled" },
-        pieSliceTextStyle: { fontSize: 14 },
+        legend: {
+          position: "labeled",
+          textStyle: { fontName: "Kanit ,font-weight: bold", fontSize: "20" },
+        },
+        pieSliceTextStyle: { fontSize: 16 },
         // sliceVisibilityThreshold: 0.05,
-        pieSliceText: "value",
         // pieResidueSliceLabel: "อื่นๆ",
+        pieSliceText: "value",
+
+        slices: {
+          1: { offset: 0.2 },
+          3: { offset: 0.3 },
+        },
+        chartArea: {
+          left: "3%",
+          top: "13%",
+          height: "100%",
+          width: "100%",
+        },
+
         // is3D: true,
         colors: [
           "#007ea7",
