@@ -35,17 +35,20 @@ export default {
         bar: { groupWidth: "75%" },
         height: 600,
 
-        colors: ["#3a86ff", "#8338ec", "#ff006e", "#00afb9", "#ffbe0b"],
+        colors: ["#be5683", "#84a9ac", "#d9adad", "#848ccf", "#c3aed6"],
         hAxis: {
           title: "หอผู้ป่วย",
           slantedText: true,
           slantedTextAngle: 45,
-          textStyle: { fontName: "Kanit ,font-weight: bold", fontSize: "16" },
+          textStyle: { fontName: "Kanit ,font-weight: bold", fontSize: "18" },
         },
-        vAxis: { title: "อายุ" },
+        vAxis: {
+          title: "อายุ",
+          textStyle: { fontName: "Kanit ", fontSize: "18" },
+        },
         chartArea: {
           left: "3%",
-          top: "13%",
+          top: "10%",
           height: "70%",
           width: "90%",
         },
@@ -53,7 +56,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.chartData);
+    // console.log(this.chartData);
   },
 };
 </script>

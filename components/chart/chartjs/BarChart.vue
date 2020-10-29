@@ -50,6 +50,9 @@ export default {
             {
               ticks: {
                 beginAtZero: true,
+                fontSize: 20,
+                fontFamily: "Kanit, sans-serif",
+                fontStyle: "italic",
               },
               gridLines: {
                 display: true,
@@ -60,6 +63,12 @@ export default {
             {
               gridLines: {
                 display: false,
+              },
+              ticks: {
+                beginAtZero: true,
+                fontSize: 20,
+                fontFamily: "Kanit, sans-serif",
+                fontStyle: "italic",
               },
             },
           ],
@@ -89,7 +98,7 @@ export default {
             align: "end",
             anchor: "end",
             Clamping: "end",
-            backgroundColor: "#8ac926",
+            backgroundColor: "#92817a",
             // borderColor: "#B0C4DE",
             borderRadius: 4,
             borderWidth: 1,
@@ -120,7 +129,9 @@ export default {
         this.chartcolor = "#880E4F";
       }
       //สี chart
-      this.chartData.datasets[0].backgroundColor = this.chartcolor;
+      // this.chartData.datasets[0].backgroundColor = this.chartcolor;
+      this.chartData.datasets[0].backgroundColor = "#4ea0ae";
+
       this.chartData.datasets[0].borderColor = this.chartbodercolor;
       //ค่า+label
       this.chartData.labels = this.ipdall_chart_bar_name;

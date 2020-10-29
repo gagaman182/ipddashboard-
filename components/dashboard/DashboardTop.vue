@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex sm12>
         <div class="headline grey--text text--darken-1 mainhead">
-          <h3><v-icon large>web</v-icon> จำนวนบริการผู้ป่วยใน (คน)</h3>
+          <h3><v-icon large>web</v-icon> จำนวนผู้รับบริการผู้ป่วยใน(คน)</h3>
         </div>
       </v-flex>
       <v-flex lg3 sm12>
@@ -156,5 +156,10 @@ export default {
 h2,
 h3 {
   font-family: "Kanit", sans-serif;
+}
+span {
+  font-family: "Kanit", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
 }
 </style>

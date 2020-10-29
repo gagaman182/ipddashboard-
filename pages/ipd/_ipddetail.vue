@@ -89,6 +89,17 @@
           </div>
         </v-widget>
       </v-flex>
+      <!-- time line chartjs -->
+      <v-flex sm12 md12 sm12>
+        <v-widget title="กราฟแสดงตามช่วงเวลา" :colors="chartcolor">
+          <div slot="widget-content">
+            <LineChartTime
+              v-if="loaddata_time"
+              :ipdall_time_line_data="ipdall_time_line_data"
+            ></LineChartTime>
+          </div>
+        </v-widget>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -96,7 +107,7 @@
 <script>
 import VWidget from "@/components/VWidget";
 import axios from "axios";
-import LineChart from "@/components/chart/chartjs/LineChart";
+import LineChartTime from "@/components/chart/chartjs/LineChartTime";
 import BarChart from "@/components/chart/chartjs/BarChart";
 import DoughnutChart from "@/components/chart/chartjs/DoughnutChart";
 import PieChartHorizon from "@/components/chart/google/PieChartHorizon";
@@ -104,7 +115,7 @@ import StackedColumn from "@/components/chart/google/StackedColumn";
 export default {
   components: {
     VWidget,
-    LineChart,
+    LineChartTime,
     BarChart,
     DoughnutChart,
     PieChartHorizon,
@@ -118,6 +129,7 @@ export default {
       loaddata_apex: false,
       loaddata_sex: false,
       loaddata_age: false,
+      loaddata_time: false,
       chartcolor: null,
       iconmain: null,
       titlemain: null,
@@ -129,6 +141,8 @@ export default {
       ipdall_chart_donut_sum: null,
       ipdall_google_pie: null,
       ipdall_age: null,
+      ipdall_time_line: null,
+      ipdall_time_line_data: null,
       ipdall_progrerss_sex: 0,
       ipdall_progrerss_sex_m: 0,
       ipdall_progrerss_sex_f: 0,
@@ -143,6 +157,7 @@ export default {
     this.feathgoogle_pie();
     this.feathprogress_sex();
     this.feathage();
+    this.feathline_time();
   },
   mounted() {
     this.changetitlecolor();
@@ -244,7 +259,7 @@ export default {
         .then((response) => {
           this.loaddata_sex = true;
           this.ipdall_progrerss_sex = response.data;
-
+          console.log(this.ipdall_progrerss_sex);
           this.ipdall_progrerss_sex_m = this.ipdall_progrerss_sex.map(
             (item) => item.m
           );
@@ -269,6 +284,27 @@ export default {
         .then((response) => {
           this.loaddata_age = true;
           this.ipdall_age = response.data;
+        });
+    },
+
+    //fresh time line chart
+    async feathline_time() {
+      await axios
+        .get(
+          `${this.$axios.defaults.baseURL}chartjs/ipd_all_chart_line_time.php`,
+          {
+            params: {
+              ipddetail: this.$route.params.ipddetail,
+            },
+          }
+        )
+        .then((response) => {
+          this.loaddata_time = true;
+          this.ipdall_time_line = response.data;
+
+          this.ipdall_time_line_data = this.ipdall_time_line.map(
+            (item) => item.time
+          );
         });
     },
   },

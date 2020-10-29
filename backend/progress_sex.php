@@ -3,7 +3,8 @@
    
 
 include 'connect.php';
- $ipddetail = $_GET["ipddetail"];
+  $ipddetail = $_GET["ipddetail"];
+
  if($ipddetail == 'ipdall'){
 
   $sqlipd = "SELECT 
