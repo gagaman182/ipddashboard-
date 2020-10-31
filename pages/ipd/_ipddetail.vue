@@ -112,6 +112,7 @@ import BarChart from "@/components/chart/chartjs/BarChart";
 import DoughnutChart from "@/components/chart/chartjs/DoughnutChart";
 import PieChartHorizon from "@/components/chart/google/PieChartHorizon";
 import StackedColumn from "@/components/chart/google/StackedColumn";
+
 export default {
   components: {
     VWidget,

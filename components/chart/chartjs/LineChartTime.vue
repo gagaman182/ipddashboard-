@@ -108,6 +108,8 @@ export default {
     };
   },
   mounted() {
+    // ขนาด font
+    // Chart.defaults.global.defaultFontSize = 14;
     this.changetitlecolor();
     //เรียกใช้ plugin labels
     this.addPlugin(ChartJSPluginDatalabels);

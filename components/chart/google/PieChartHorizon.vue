@@ -17,15 +17,7 @@ export default {
   },
   data() {
     return {
-      // Array will be automatically processed with visualization.arrayToDataTable function
-      chartData: [
-        // ["Year", "Sales"],
-        // ["2014", 1000],
-        // ["2015", 1170],
-        // ["2016", 660],
-        // ["2017", 1030],
-        // ["20178", 900],
-      ],
+      chartData: [],
       chartOptions: {
         title: "สิทธิการรักษา",
         titleTextStyle: { fontName: "Kanit ", fontSize: "20" },

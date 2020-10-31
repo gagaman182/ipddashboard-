@@ -111,15 +111,41 @@
       </v-flex>
     </v-layout>
     <span>{{ today }}</span>
+
+    <v-flex lg12 sm12>
+      <v-card>
+        <h2 class=" pa-3">
+          กราฟแสดงจำนวนผู้รับบริการผู้ป่วยในรายปี
+        </h2>
+
+        <v-card-text class="white--text">
+          <div>
+            <LineChartMonth
+              v-if="loaddata_month"
+              :chartData="ipdall_month"
+            ></LineChartMonth>
+          </div>
+        </v-card-text>
+        <v-divider></v-divider>
+      </v-card>
+    </v-flex>
   </v-container>
 </template>
 
 <script>
 import moment from "moment";
+import axios from "axios";
+import LineChartMonth from "@/components/chart/google/LineChartMonth";
 export default {
   name: "dashboardtop",
+  components: {
+    LineChartMonth,
+  },
   data() {
-    return {};
+    return {
+      loaddata_month: false,
+      ipdall_month: null,
+    };
   },
   computed: {
     today: function() {
@@ -136,6 +162,9 @@ export default {
     ipd_out: null,
     showprogress: null,
   },
+  mounted() {
+    this.feathgoogle_line_month();
+  },
   methods: {
     detail_ipd_all() {
       this.$emit("detail-ipd-all", { message: "/ipd/ipdall" });
@@ -148,6 +177,16 @@ export default {
     },
     detail_ipd_out() {
       this.$emit("detail-ipd-out", { message: "/ipd/ipdout" });
+    },
+    //fresh line google chart month
+    async feathgoogle_line_month() {
+      await axios
+        .get(`${this.$axios.defaults.baseURL}google/ipd_line_month_ipd.php`)
+        .then((response) => {
+          this.loaddata_month = true;
+          this.ipdall_month = response.data;
+          // console.log(this.ipdall_month);
+        });
     },
   },
 };

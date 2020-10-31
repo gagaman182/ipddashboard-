@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       chartData: {
-        labels: ["Babol", "Cabanatuan", "Daegu", "Jerusalem"],
+        labels: [],
         datasets: [
           {
             borderWidth: 2,
@@ -31,6 +31,7 @@ export default {
           fontSize: "20",
           fontFamily: "Kanit, sans-serif",
         },
+        titleTextStyle: { fontName: "Kanit", fontSize: "20" },
         legend: {
           display: true,
         },
@@ -39,6 +40,16 @@ export default {
         plugins: {
           datalabels: {
             color: "#ffffff",
+            // แปลงจากจำนวนเติม เป็น function
+            formatter: (value, ctx) => {
+              let sum = 0;
+              let dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map((data) => {
+                sum += data;
+              });
+              let percentage = ((value * 100) / sum).toFixed(1) + "%";
+              return percentage;
+            },
 
             font: {
               weight: "bold",
@@ -47,7 +58,7 @@ export default {
 
             align: "center",
             anchor: "center",
-            Clamping: "center",
+
             backgroundColor: "#706677",
             // borderColor: "#B0C4DE",
             borderRadius: 4,
